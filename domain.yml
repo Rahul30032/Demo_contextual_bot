@@ -1,0 +1,84 @@
+
+intents:
+  - greet : {triggers: action_greet} #The greet intent is a good example where we will always give the same response and yet we don’t want the intent to affect the dialogue history. To do this, the response must be an action that returns the UserUtteranceReverted() event to remove the interaction from the dialogue history.
+  - bye
+  - thank
+  - faq
+  - contact_sales
+  - inform
+  - explain #for contextual questions and interuptions
+  - out_of_scope # for fallback policy
+entities:
+  - company
+  - job_function
+  - person_name
+  - budget
+  - business_email
+  - use_case
+
+
+slots:
+  # You can also handle contextual questions, like the user asking the question “Why do you need to know that”. The user could ask this based on a certain slot the bot has requested, and the response should differ for each slot.
+  #To handle this, we need to make the requested_slot featurized, and assign it the categorical type:
+  requested_slot:
+    type: categorical
+    values:
+      - business_email
+      - company
+      - person_name
+      - use_case
+      - budget
+      - job_function
+  company:
+    type: unfeaturized
+  job_function:
+    type: unfeaturized
+  person_name:
+    type: unfeaturized
+  budget:
+    type: unfeaturized
+  business_email:
+    type: unfeaturized
+  use_case:
+    type: unfeaturized
+
+
+
+responses:
+  utter_noworries:
+    - text: No worries!
+  utter_greet:
+    - text: Hi
+  utter_bye:
+    - text: Bye!
+  utter_ask_business_email:
+    - text: What's your business email?
+  utter_ask_company:
+    - text: What company do you work for?
+  utter_ask_budget:
+    - text: "What's your annual budget for conversational AI? 💸"
+  utter_ask_job_function:
+    - text: "What's your job? 🕴"
+  utter_ask_person_name:
+    - text: What's your name?
+  utter_ask_use_case:
+    - text: What's your use case?
+  utter_explain_why_budget:
+  - text: We need to know your budget to recommend a subscription
+  utter_explain_why_email:
+  - text: We need your email so we can contact you
+  utter_out_of_scope:
+  - text: Sorry, I can’t handle that request.
+
+
+forms:
+  - sales_form
+
+actions:
+  - respond_faq
+  - action_greet
+
+
+session_config:
+  session_expiration_time: 60  # value in minutes
+  carry_over_slots_to_new_session: true
